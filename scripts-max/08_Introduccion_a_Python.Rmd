@@ -1,0 +1,331 @@
+---
+title: "Trabajando con Python"
+output: html_notebook
+---
+```{r}
+library(reticulate)
+```
+
+# Constantes en Python
+
+```{python}
+#Vamos a usar python como calculadora
+import math
+math.pi
+math.e
+math.tau #tau se define como 2*pi
+2*math.pi
+math.inf #para obtener el infito
+-math.inf #para obtener el -infinito
+float('inf')
+math.nan #para usar un indeterminado
+float('nan')
+math.sqrt(1.0)
+math.log(1)
+#math.exp(1000.0) #Ocurre le error OverflowError porque python no puede manejar muchos decimales.
+math.pow(math.nan,0) #Se usa para elevar un número a una potencia.
+math.nan + 5
+math.hypot(math.nan,math.inf)
+```
+# Operaciones Aritméticas
+
+```{python}
+2 + 2
+3 - 5
+4 * 2
+4 / 2
+4 ** 2
+math.ceil(3.456) #Redondea a la alza
+math.floor(3.456) #Redondea a la baja
+math.trunc(3.456) #Redondea a la baja
+math.copysign(3, -2) #copia el signo
+math.copysign(3, -0.0) #simpre es bueno colocar los decimales en python
+math.fabs(-5.0) #Nos da el valor absoluto de un número
+math.factorial(4) #Nos da el factorial
+x = 5
+y = 2
+math.factorial(x)/ (math.factorial(y)*math.factorial(x-y)) #Nos da el número conbinatorio de 5 y 2
+math.fmod(7,3) #Nos da el resto, se recomienda cuando se trabaja con número reales.
+7%3 #Otra forma de calcular el resto, se recomiendo para números enteros
+7//3 #Nos da la división entera
+math.remainder(7,3) #otra forma de calcular el residuo
+math.modf(4.25) #Separa la parte fracional de la parte entera
+math.gcd(24,36) #Nos da el mcd
+math.isfinite(2.5) #Nos dira si un número es infinito o finito
+math.isnan(4.5) #Nos dira si un número es NaN
+math.isclose(math.sqrt(2)**2,2,rel_tol=1e-09)
+math.sqrt(2)**2
+
+```
+
+
+# Enetrada y Salidad de datos
+
+```{python}
+print("Hola, me llamo Max Albert Ponce Sanchez")
+x = 7
+print(x)
+print("El valor de la variable x es: " + str(x))
+texto = input("Introduce aqui tu nombre: ") 
+numero = int(input("Introduce aqui tu edad: "))
+texto
+numero
+x = 5 #int
+x = 'j' #char
+x = 3.1415 #float
+x = True #bool
+x = 'h' #char
+print("La variable x ahora se trata de un caracter: " + x)
+x = "La variable x es ahora una cadena de caracteres" #string
+
+```
+# Operdadores de Decisión
+
+```{python}
+x = int(input("Escribe un número: " ))
+if x==5:
+  print("Has escrito el número 5: ")
+if x < 5:
+  print("Has escrito un número menor que 5:")
+elif x < 10:
+  print("Ha escrito un número menor que 10 y mayor o igual a 5")
+else:
+  print("El número que has escrito es mayor o igual que 10"
+  )
+x = int(input("Escribe un número: "))
+if x>0 and x <10:
+  print("Has escrito un número en el rango de [0,10]")
+x = int(input("Escribe un número: "))
+if x < 0 or x > 10:
+  print("Tú número escrito no se encuentra dentro del rango [0,10])")
+```
+
+# Funciones matemáticas
+```{python}
+math.exp(3) #Es más precisa
+math.e**3 #Es menos precisa
+math.pow(math.e,3) #Es menos precisa
+math.expm1(1)
+math.exp(1)-1 #Puede llegar a perder precisión
+math.exp(1e-05)-1
+math.expm1(1e-05) #Se obtiene más digitos de precisión
+math.log(12)
+math.log(12, 2) #Realiza el logaritmo en diferentes bases
+math.log1p(1e-5)
+math.log2(32) #Realiza el logaritmo en base 2
+math.sqrt(64)
+#Funciones trigonométricas
+math.sin(math.pi)
+math.cos(math.pi)
+math.tan(math.pi)
+math.asin(1)
+math.acos(1)
+math.atan(1)
+math.degrees(0.7853981633974483) #Trasforma radianes a grados
+math.radians(60) #Transforma grados a radianes
+math.sin(math.radians(37))
+math.hypot(3,4) #Da la hipotenusa de un triángulo.
+math.sqrt(3**2 + 4**2)
+math.degrees(math.atan2(4, 3))
+math.sinh(0) #Seno Hiperbólico
+math.cosh(0) #Coseno Hiperbólico
+math.tanh(0) #Tangente Hiperbólico
+math.erf(0) #
+math.erf(math.pi)
+math.erfc(math.pi) #Da el complementario de erf
+#erf + erfc = 1
+math.gamma(5) #Es el fatorial de (x-1)! usando enteros. Tambien admite valores reales.
+math.lgamma(5) #Logaritmo del valor absoluto de una función gamma(x)
+
+```
+
+# Cómo definir funciones con Python
+
+```{python}
+
+def suma(x,y):
+  return x + y
+class Operaciones(object):
+  def suma(self, x, y): #El primer argumento o parámetro de un métodos simpre será self.
+    self.resultado = x + y
+    return self.resultado
+```
+
+
+```{python}
+suma(2,3)
+operInstance = Operaciones()
+operInstance.suma(2,3)
+```
+
+```{python}
+def saludar():
+  name = str(input("Introduce tu nombre: "))
+  if name:
+    print("Hola " + name)
+  else:
+    print("Hola, estoy programando!")
+```
+
+
+```{python}
+saludar()
+```
+
+```{python}
+def buscarPares():
+  for x in range(10):
+    if x % 2 == 0:
+      return
+```
+
+```{python}
+def sumaresta(x,y):
+  suma = x + y
+  resta = x - y
+  return (suma, resta)
+```
+
+```{python}
+sumaresta(2,3)
+```
+# Argumentos variables y Función Lambda
+
+```{python}
+def suma(*args):
+  return sum(args)
+```
+
+```{python}
+suma(1,2,3,4,5,6,7,8,9,10)
+```
+```{python}
+def sumacuadrados(*datos):
+  total = 0
+  for d in datos:
+    total += d**2
+  return total
+```
+
+
+```{python}
+sumacuadrados(1,2,3,4,5)
+```
+
+La función lambda es tambien conocida como función anónima.
+
+```{python}
+doble = lambda x: x*2
+```
+
+```{python}
+doble(4)
+cuadrado = lambda x: x**2
+cuadrado(5)
+suma = lambda x, y: x+y
+suma(2,3)
+from functools import reduce
+data = [1,2,3,4,5,6,7,8,9,10]
+filtered_data = list(filter(lambda x: (x*2>8), data))
+filtered_data
+
+mapped_data = list(map(lambda x: x*2, data))
+mapped_data
+
+reduced_data = reduce(lambda x,y: x+y, data)
+reduced_data
+```
+#Preguntas
+1. Escribe una secuencia de instrucciones que permitan leer un número real por pantalla y que muestre si el número es positivo o no.
+
+```{python}
+x = int(input("Digite un numero: "))
+if x > 0:
+  print("El número "+ str(x) + " es positivo")
+else:
+  print("El número "+ str(x) + " es negativo")
+```
+
+2. Escribe una secuencia de instrucciones que permitan leer un número real por pantalla y que muestre si el número está en el rango entre -5 y 5.
+
+```{python}
+
+x = float(input("Digite un número real: "))
+if x > -5 and x < 5:
+  print("El número " + x + " está en el rango de -5 y 5")
+else:
+  print("El número " + x + " no está en el rango de -5 y 5")
+```
+
+3. Escribe una secuecnia de intruscciones que permitan leer las coordenadas de un punto(x,y) e indique en cuál de los cuatro cuadrantes se encuentra dicho punto.
+
+```{python}
+
+x = float(input("Digite la coordenada x: "))
+y = float(input("Digite la coordenada y: "))
+if x > 0 and y > 0:
+  print("La coordenada (" + x + "," + y + ") está en el primer cuadrante") 
+elif x < 0 and y > 0:
+  print("La coordenada (" + x + "," + y + ") está en el segundo cuadrante")
+elif x < 0 and y < 0:
+  print("La coordenada (" + x + "," + y + ") está en el tercer cuadrante")
+elif x > 0 and y < 0:
+  print("La coordenada (" + x + "," + y + ") está en el cuarto cuadrante")
+else:
+  print("La coordenada (" + x + "," + y + ") está en otra dimensión")
+
+```
+
+4. Escribe una secuencia de instrucciones que permitan leer un número entero y muestre el cociente de la división entera y el resto.
+
+```{python}
+
+x = int(input("Digite el dividendo: "))
+y = int(input("Digite el divisor: "))
+cociente = x//y
+resto = x%y
+print("El cocinete es: " + str(cociente))
+print("El resto es: " + str(resto))
+```
+
+5. Escribe una secuencia de instrucciones que permitan leer si un número entero es cuadrado perfecto o no
+
+```{python}
+x = int(input("Digite un número: "))
+if math.trunc(math.sqrt(x)) == 0:
+  print("El número " + str(x) + " es un cuadrado perfecto.")
+else:
+  print("El número " + str(x) + " no es un cuadrado perfecto.")
+```
+
+
+6. Escribe una expresión que permita determinar si un número entero positivo puede corresponder a un año bisiesto o no. Se consideran años bisiestos aquellos cuyo número es divisible por cuatro excepto los años que son múltiplos de 100, a no ser que lo sean de 400 (por ejemplo el año 2000 fue bisiesto pero el 2100 no lo será)
+
+```{python}
+
+x = int(input("Digite el año: ))
+if x%4 == 0 and x%400 == 0:
+  print("El año " + str(x) + " es bisiesto")
+else:
+  print("El año " + str(x) + " no es bisiesto")
+```
+
+7. Busca la imagen de un tablero de ajedrez en Google y fíjate en la nomenclatura de las casillas. Escribe una expresión lea una letra y un número de teclado correspondiente a una casilla de un tablero de ajedrez y nos indique si esta casilla es negra o blanca.
+
+```{python}
+
+x = str(intput("Digite la letra de la casilla: "))
+y = int(input("Digite el número de la casilla: "))
+if (x == a or x == c or x  == e or x == g) and y%2 != 0:
+  print("La casilla es negra")
+elif (x == a or x == c or x  == e or x == g) and y%2 == 0:
+  print("La casilla es blanca")
+elif (x == b or x == d or x  == f or x == h) and y%2 != 0:
+  print("La casilla es blanca")
+elif (x == b or x == d or x  == f or x == h) and y%2 == 0:
+  print("La casilla es negra")
+else:
+  print("La casilla está fuera del tablero.")
+  
+```
+

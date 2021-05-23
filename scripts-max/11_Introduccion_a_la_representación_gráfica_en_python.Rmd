@@ -1,0 +1,209 @@
+---
+title: "Introducción a la representación gráfica en Python"
+output: html_notebook
+---
+
+## Matplotlib 
+```{python}
+%matplotlib inline #Los gráficos se muestran bien a la hora de invocarlas
+import matplotlib.pyplot as plt #Invoca la extensión matplot
+```
+
+```{python}
+pltfigure(1)
+x = [1,2,3,4]
+plt.plot(x)
+plt.xlabel("Eje de abcisas")
+plt.ylabel("Eje de ordenadas")
+plt.show()
+```
+
+```{python}
+pltfigure(2)
+x = [1,2,3,4]
+y = [1,4,9,16]
+plt.plot(x,y)
+plt.show()
+```
+
+```{python}
+plt.figure(3)
+plt.plot(x,y,"ro")
+plt.axis([0,6,0,20])
+plt.show()
+```
+
+
+```{python}
+import numpy as np
+```
+
+```{python}
+data = np.arange(0.0,10.0,0.2)
+data
+```
+
+```{python}
+plt.figure(4)
+plt.plot(data, data, "r--", data, data**2, "bs", data, data**3, "g^")
+plt.show()
+```
+
+```{python}
+plt.figure(5)
+plt.plot(x,y, linewidth = 5.0)
+plt.show()
+```
+
+```{python}
+plt.figure(6)
+line = plt.plot(x,y, '-')
+line.set_antialiased(False)
+plt.show(line)
+```
+```{python}
+plt.figure(7)
+line = plt.plot(data, data, data, data**2)
+line.setp(line, color = "r", linewidth = 2)
+plt.show(line)
+```
+```{python}
+lines = plt.plot(data, data, data, data**2)
+plot.setp(lines, "color", "r", "linewidth" 2)
+```
+
+```{python}
+plt.figure(8)
+plt.plot(x,y,alpha = 0.2) #Alpha modifica la opacacidad del gráfico
+plt.show()
+```
+
+```{python}
+plt.figure(9)
+plt.plot(x,y, marker = "+", linestyle = ":", animated = True)
+plt.show()
+```
+
+```{python}
+plt.setp(lines) #muestra todos los parámetros.
+```
+
+## Múltiple gráficos
+
+```{python}
+def f(x):
+  return np.exp(-x)*np.cos(2*np.pi*x)
+```
+
+```{python}
+x1 = np.arange(0, 5.0, 0.1)
+x2 = np.arange(0, 5.0, 0.2)
+```
+
+```{python}
+plt.figure(10, clear=True)
+plt.subplot(211) #Significa 2 filas y 1 columna. El otro 1 hace referencia a que se va atrabajar en la fila 1 y columna 1
+plt.plot(x1, f(x1), 'ro', x2, f(x2), 'k')
+plt.subplot(212) #El 2 hace referencia a que se va a trabajar con la segunda fila y 1 columna.
+plt.plot(x2, f(x2), 'g--')
+plt.show()
+```
+
+```{python}
+plt.figure(11, clear=True)
+plt.subplot(2,1,1)
+plt.plot([1,2,3])
+plt.subplot(2,1,2)
+plt.plot([4,5,6])
+plt.show()
+
+plt.figure(12, clear=True)
+plt.plot([4,5,6])
+plt.show()
+
+plt.figure(11)
+plt.subplot(2,1,1)
+plt.title("Esto es el primer título")
+plt.show()
+```
+
+## Textos en los gráficos
+
+```{python}
+mu = 100
+sigma = 20
+
+x = mu + sigma*np.random.randn(10000)
+```
+```{python}
+plt.figure(13, clear=True)
+n, bins, patches = plt.hist(x, 50, normed=1, facecolor = "g", alpha = 0.6)
+plt.xlabel("Conciente Intelectual", fontsize=10, color ="green")
+plt.ylabel("Probabilidad")
+plt.title(r"Histograma de CI $N(\mu,\sigma$)")
+plt.text(40,500, r'$\mu =100,\ \sigma=20$')
+plt.axis([20,180,0,800])
+plt.grid(True)
+plt.show()
+```
+
+```{python}
+plt.figure(14, clear=True,figsize=(10,6), dpi = 100)
+plt.subplot(1,1,1)
+x = np.arange(0,10*np.pi,0.01)
+y = np.cos(x)
+plt.plot(x,y, lw=2.0)
+plt.annotate('Máximo Local', xy=(4*np.pi,1), xytext=(15,1.5), arrowprops = dict(facecolor = "black", shrink = 0.05))
+plt.ylim(-2,2)
+plt.show()
+```
+
+## Cambio de Escala
+
+```{python}
+from matplotlib.ticker import NullFormatter
+```
+
+
+```{python}
+mu = 0.5
+sd = 0.3
+y = mu + sd*np.random.randn(1000)
+y = y[(y>0)&(y<1)]
+y.sort()
+x = np.arange(len(y))
+```
+```{python}
+plt.figure(15,clear=True, figsize=(10,8))
+plt.subplot(2,2,1)
+plt.plot(x,y)
+plt.yscale("linear")
+plt.xscale("linear")
+plt.title("Escala Lineal")
+plt.grid(True)
+
+plt.subplot(2,2,2)
+plt.plot(x,y)
+plt.yscale("log")
+plt.title("Escala Logarítmica")
+plt.grid(True)
+
+plt.subplot(2,2,3)
+plt.plot(x,y-y.mean())
+plt.yscale("symlog",linthreshy=0.01)
+plt.title("Escala Log Simétrico")
+plt.grid(True)
+
+plt.subplot(2,2,4)
+plt.plot(x,y)
+plt.yscale("logit")
+plt.title("Escala logística")
+plt.gca().yaxis.set_minor_formatter(NullFormatter())
+plt.grid(True)
+
+plt.subplots_adjust(top = 0.92, bottom = 0.08, left = 0.1, right = 0.95, hspace = 0.35, wspace = 0.35)
+
+plt.show()
+```
+
+

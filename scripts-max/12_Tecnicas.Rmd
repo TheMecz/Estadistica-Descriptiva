@@ -1,0 +1,196 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+install.packages(c("modeest", "raster", "moments"))
+library(modeest) #moda 
+library(raster) #quantiles, cv
+library(moments) #asimetría, curtosis
+```
+
+## Medidas de Centralización
+
+```{r}
+##Mediana
+x = data$mpg
+mean(x) #sum(x)/length(x)
+median(x)
+
+## Moda
+
+mfv(x) #Nos da la moda
+
+quantile(x) #Nos da una tabla de quantiles
+
+```
+## Medidas de Dispersión
+
+```{r}
+var(x) #Varianza
+sd(x) #Desviación típica
+cv(x) #Coeficiente de varianción
+```
+
+## Medidas de Asimetría
+
+```{r}
+skewness(x) #Asimetría de Fisher
+moments::kurtosis(x) #Curtosis
+```
+
+## Función apply()
+
+* ```apply(matriz, MARGIN=...,FUN=función)```: para aplicar otras funciones a las filas o las columnas de una matriz.
+  + **MARGIN**: ha de ser 1 si queremos aplicar la función por filas; 2 si queremos aplicar por columnas; o c(1,2) si la queremos aplicar a cada entrada
+  
+```{r}
+cuadrado = function(x){x^2}
+A = 1:9
+M = matrix(A, nrow = 3)
+M
+apply(M, MARGIN = c(1,2), FUN = cuadrado)
+```
+```{r}
+apply(M, MARGIN = 1, FUN = sum)
+```
+```{r}
+apply(M, MARGIN=2, FUN = sum)
+```
+## Operaciones
+
+* ```t(matriz)```: para obtener la transpuesta de la matriz
+* ```+```: para sumar matrices
+* ```*```: para el producto de una escalar por una matriz
+* ```%*%```: para multiplicar matrices
+* ```mtx.exp(matriz,n)```: para elevar la matriz a $n$
+  + Del paquete **Biodem**
+    + No calcula las potencias exactas, las aproxima
+* ```%%```: para elevar matrices
+  + Del paquete ```expm```
+    + No calcula las potencias exactas, las aproxima
+    
+### Ejercicio:
+
+Observad qué ocurre si, siendo $A = \begin{equation}\begin{pmatrix}2&0&2\\1&2&3\\0&1&3\end{pmatrix}\end{equation}$ y $B = \begin{equation}\begin{pmatrix}3&2&1\\1&0&0\\1&1&1\end{pmatrix}\end{equation}$, realizamos las operaciones $A\times B, A^2$ y $B^3$
+
+* ```det(matriz)```: para calcular el determiante de la matriz
+* ```qr(matriz)$rank```: para calcular el rango de la matriz
+* ```solve(matriz)```: para calcular la inversa de una matriz invertible
+  + También sirve para resolver sistemas de ecuaciones lineales. Para ello introducimos ```solve(matriz,b)```, donde $b$ es el vector de términos independientes
+
+## Valores y vecotres propios
+
+### [Vector propio y valor propio][id]
+
+[id]: https://es.wikipedia.org/wiki/Vector,_valor_y_espacio_propios "Title"
+
+* ```eigen(matriz)$values```: nos da el vector con los vaps de la matriz en orden decreciente de su valor absoluto y repetidos tantas veces como su multiplicidad algebraica.
+* ```eigen(matriz)$vectors```: nos da una matriz cuyas columnas son los veps de la matriz.
+
+```{r}
+M = rbind(c(2,6,-8),c(0,6,3),c(0,2,1))
+eigen(M)
+```
+
+## Ejercicio
+
+Comprobad, con los datos del ejemplo anterior, que si $P$ es la matriz de vectores propios de $M$ en columna y $D$ la matriz diagonal cuyas entradas son los valores propios de $M$, entonces se cumple la siguiente igualdad llamada **descomposición canónica**:
+$$M=P \times D \times P^{-1}$$
+
+* Si hay algún vap con multiplicidad algebrica mayor que 1(es decir, que aparece más de una vez), la función ```eigen()``` da tanto valores de este vap como su multiplicidad algebraica indica. Además, en este caso, R intenta que los veps asociados a cada uno de estos vaps sean [linealmente independientes][id].
+
+[id]: https://es.wikipedia.org/wiki/Dependencia_e_independencia_lineal "Title"
+Por tanto, cuando como resultado obtenemos veps repetidos asociados a un vap de multiplicidad alebraica mayor que 1, es porque para este vap no existen tantos veps linealmente independientes como su multiplicidad algberica y, por consiguiente, la matriz no es [diagonalizable][id].
+
+[id]: https://es.wikipedia.org/wiki/Matriz_diagonalizable "Title"
+
+```{r}
+M = matrix(c(0,1,0,-7,3,-1,16,-3,4), nrow = 3, byrow = TRUE)
+eigen(M)
+```
+
+```{r}
+A = matrix(c(3-2i, 5+3i, 1+2i, 2-1i), nrow = 2, byrow = T)
+A
+A%*%A
+eigen(A)
+solve(A, c(1-1i,4))
+prod(eigen(A)$values) #Es una método para calcular la determinante de una matriz de número complejos
+
+```
+## Reticulate
+
+```{r}
+library(reticulate)
+# py_install("nombre del paquete a instalar")
+os <- import("os")
+os$listdir(".")
+```
+
+## Invocar la una función de python en R
+
+```{r}
+source_python("funcion_suma.py")
+suma(3,4)
+```
+
+```{r}
+np <- import("numpy", convert = FALSE)
+x <- np$array(c(1:4))
+sum <- x$cumsum()
+print(sum)
+
+py_to_r(sum)
+```
+
+## Ayuda
+
+```{r}
+py_help((os$chdir))
+help("py_to_r")
+```
+
+## Arrays
+
+```{r}
+a <- np_array(c(1:10), dtype="float16")
+a
+b <- np_array(c(1:10), order="C")
+b
+```
+```{r}
+datos <- iris
+head(datos)
+datos_py <- r_to_py(datos)
+```
+
+```{python}
+import numpy as np
+import pandas as pd
+r.datos_py.head()
+```
+## Sparce Matrix
+
+```{r}
+library(Matrix)
+N <- 6
+set.seed(123)
+sparse_mat <- sparseMatrix(
+  i = sample(N, N, replace = F),
+  j = sample(N, N, replace = F),
+  x = runif(N),
+  dims = c(N,N)
+)
+sparse_mat
+sparse_mat_py <- r_to_py(sparse_mat)
+```
+
+```{python}
+r.sparse_mat_py
+```
+```{r}
+py_to_r(sparse_mat_py)
+```
+

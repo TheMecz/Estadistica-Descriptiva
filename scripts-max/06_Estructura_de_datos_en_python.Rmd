@@ -1,0 +1,301 @@
+---
+title: "Estructuras de datos en Python"
+output: html_notebook
+---
+
+## Listas en Python
+Son contenedores que permiten almacenar una colección de objetos en un orden determinado. Se pueden acceder, añadir o eliminar objetos de forma sencilla.
+
+```{python}
+L1 = [] #Lista vacía
+L2 = ['a','e','i','o','u'] #Lista con valores iniciales
+L3 = [2,3,5,7,11] #Lista de valores enteros
+L4 = ['a',5,True,"Max Ponce"] #Lista heterogénea con varios tipos de datos diferentes.
+L5 = [0]*10
+L5
+L4[0] #Las listas en python empiezan en la posición número 0
+L4[1]
+L5[4] = 3.1415 #Modificación de valores
+L5
+L5[0:2] #Accesos de posiciones múltiple(incluye la primera, pero no la última)
+L5[1:4] = [1,2,3]
+L5
+L5.append(8) #Añade un elemento al final de la lista
+L5
+L5.remove(3) #Elimina la primera ocurrencia del objeto 3 de la lista L5
+L5
+L5.reverse() #Invierte la lista
+L5.count(0) #Cuenta cuantas veces se repite un elemento en la lista
+L5.index(2) #Ubíca la posición en la que se encuentra un determiando elemento
+len(L5) #Nos da el número de elementos que compone la lista
+L = [1,2,3,4,5,6]
+L[1::2] #Elementos en posición impar
+L[::2] #Elementos en posición par
+L[:] #Muestra todos los elementos de la lista
+L[-1] #Nos da el último elemento de la lista
+8 in L #Es una forma de comprobar si un elemento está en una lista
+4 in L 
+```
+## Bucles
+
+Los bucles **for** iteran sobre una colección (una lista, string, un objeto iterable)
+
+```{python}
+L = [1,2,3,4,5,6]
+for numero in L:
+  print(numero)
+
+for x in range(0,10):
+  print(x)
+  
+for c in "Max Ponce":
+  print(c)
+
+notas = [3.5,6.7,8,9,4.5]
+suma = 0
+for nota in notas:
+  suma += nota
+print(suma/len(notas))
+```
+El bucle **while** se repite hasta que la condición booleana deja de ser cierta.
+
+```{python}
+count = 0
+while count < 10:
+  print(count)
+  count +=1
+
+primos = [2,3,5,7,11,13,17,19,23,29]
+for idx,p in enumerate(primos): #Nos devuelte la posición con su respectivo valor
+  print(idx,p)
+
+for idx in range(len(primos)):
+  print(idx, primos[idx])
+
+#Criba de Eratóstenes es un algoritmo que permite hallar todos los números primos
+```
+## Tupla
+
+Una **tupla** es una colección de objetos que no puede modificarse(tiene tamaño y contenido fijo)
+
+```{python}
+p1 = (1,)
+p1
+p2 = (1,2,3,4,5)
+p2
+p3 = (1,2,'x',3.1415)
+p3
+p3[0]
+p3[0:2]
+a,b,c,d = p3
+a
+b
+c
+d
+L3 = list(p3)
+L3
+p5 = tuple(L5)
+p5
+"Hola que tal estas".split(" ")
+"4,6,2,7,9,4,2".split(",")
+x = "1,2,3,4,5,6,7,8,9,10".split(",")
+tuple(x)
+x.reverse()
+```
+## Diccionarios
+Colección no odernada de pares de valores <-> valores. Se indexan no por posición, si no utilizando las claves
+
+```{python}
+nombre = "Max Ponce"
+print("Hola %s"%nombre)
+print("Estos son los números primos: %s"%primos)
+print("Esto es un número: %d"%suma)
+
+suma = 0
+for i in range(1,10):
+  suma += i 
+media = suma/10
+print("Esto es un número decimal: %f"%media)
+
+edad = {
+  "Max Ponce":22, 
+  "María":20, 
+  "Ricardo":53, 
+  "Antonio":45
+}
+edad["Ricardo"]
+edad["Ricardo"] = 32
+edad.keys() #Muestra solamente las claves
+edad.values() #Muestra los valores
+len(edad)
+"pepe" in edad
+"María" in edad
+"Mario" not in edad
+edad["Antonio"]
+del edad["Antonio"] #Ekimna una clave del diccionario
+notas = {
+  "Al1": 5.6,
+  "Al2": 7.5,
+  "Al3": 10,
+  "Al4": False
+}
+notas
+```
+
+## Librería Numpy y los arrays
+
+```{python}
+import numpy as np #Es la forma más recomendada para llamar a la libría
+#from numpy import *    -> es otra forma de llamar la librería
+L1 = [1,2,3,4,5,6,7,8]
+x1 = np.array(L1) #Comvierte una lista a un array
+x1
+x2 = np.array(L1,dtype='float32') #Se puede especificar el tipo de dato del vector
+x2
+
+```
+### tipos de datos para definir el vector 
+
+* bool_
+* int_
+* int_c
+* intp
+* int8
+* int16
+* int32
+* int64
+* uint8
+* uint16
+* uint32
+* uint64
+* float_
+* float16
+* float32
+* float64
+* complex_
+* complex64
+* comples128
+
+```{python}
+np.zeros((3,4)) #Crea una matriz de ceros mxn
+np.ones((4,3)) #Crea una matriz de unos mxn
+np.arange(10) #Crea una array que incrementan de forma regular
+np.arange(3,12,dtype=np.float_) #Se pueden definir los rangos
+```
+```{python}
+np.arange(4,5,0.1) #Se puede definir tambien los intervalos
+```
+```{python}
+np.linspace(1.,7.,12) #Crea un vector de 12 números diferentes que van del 1 al 7.
+```
+
+```{python}
+np.eye(5) #Crea una matriz cuadrada con una diagonal de 1's
+```
+
+```{python}
+x = np.zeros((8,3))
+x
+x.reshape((6,4)) #Realiza una nueva distribución de filas y columnas
+```
+```{python}
+y = np.arange(24)
+y.reshape((6,4))
+y.reshape((3,8))
+```
+```{python}
+x = np.array([[1,2,3,4],[5,6,7,8]])
+x
+np.ravel(x) #Aplana el array poniendo sus valores en una sóla línea
+x.flatten() #Crea una copia del array para aplanarlo
+np.transpose(x) #Crea una matriz transpuesta
+```
+```{python}
+np.resize(x,(5,3)) #Genera una matriz mxn en donde los espacios que sobren los rellanará con los mismos valores hasta que cada casilla esté completa
+``` 
+### Ejercicios
+
+1. Crear una array de datos con valores entre 5 y 120.
+2. Crear una matriz 4x4 con los valores desde el 0 hasta el 15.
+3. Crear la identidad 7x7.
+4. Crear un array de 20 elementos y transformarlo en una matriz de 5x4.
+5. Crear un array con 20 números con los valores entre 0 y 5 espaciados de forma uniforme.
+
+```{python}
+#Problema 1:
+x = np.arange(5,120)
+x
+#Problema 2:
+y = np.arange(16)
+y
+y.reshape((4,4))
+#Problema 3:
+np.eye(7)
+#Problema 4:
+z = np.arange(20)
+z
+z.reshape((5,4))
+#Problema 5:
+w = np.arange(6)
+np.resize(w,(1,20))
+```
+## Propiedades de los arrays
+
+```{python}
+x = np.arange(12)
+x = x.reshape((3,4))
+x
+```
+
+```{python}
+x.ndim #Rango de dimensiones del array
+```
+```{python}
+x.shape #Muestra las dimensiones de la matriz
+```
+```{python}
+x.size #Muestra el tamaño de la matriz
+```
+```{python}
+x.dtype #Muestra el tipo de dato de la matriz
+```
+```{python}
+x.itemsize #Muestra el tamaño en bits de cada uno de los elementos de la matriz
+```
+
+```{python}
+x.data #Indica la posición de memoria en donde está la matriz
+```
+
+```{python}
+x[2]
+x[2,1]
+x.shape = (4,3) #Redimensiona la matriz
+x
+```
+```{python}
+x[1:3, 0:2] #Extrae una submatriz
+y = np.arange(12)
+y
+y[3:8]
+y[1:7:2]
+```
+```{python}
+z = np.arange(10,6,-1)
+z
+```
+```{python}
+x = np.arange(50)
+x
+x[x>30]
+```
+```{python}
+cond = (x<25)
+cond
+x[cond]
+x[12:24] = 1
+x
+x[13:16] = [6,9,12]
+x
+```
+

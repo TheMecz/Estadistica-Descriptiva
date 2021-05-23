@@ -1,0 +1,146 @@
+---
+title: "Números Complejos"
+output: html_notebook
+---
+
+Código                            | Función
+----------------------------------|------------------------------------
+a + bi                            | Número complejo en forma binómica
+complex(real=...,imaginary=...)   | Número complejo en forma binómica
+complex(modulus=..., argument=...)| Número complejo en forma polar
+sqrt(as.complex(-x))              | \(\sqrt{-x}\)
+Re(x)                             | Parte real de \(x\)
+Im(x)                             | Parte imaginaria de \(x\)
+Mod(x)                            | Parte imaginaria de \(x\)
+Arg(x)                            | Argumento de \(x\)
+Conj(x)                           | Conjugado de  \(x\)
+
+
+```{r}
+z = 2+3i
+z2 = complex(real = 2,  imaginary = -3)
+Re(z) #Muestra la parte real del número complejo.
+Im(z) #Muestra la parte imaginaria del número complejo.
+Conj(z2) #Muestra la parte Re e Im del número complejo.
+class(z) #Muestra la clase de la variable.
+sqrt(as.complex(-5)) #Muestra la raíz cuadrada de un número complejo.
+
+#La raíz cuadrada devuelve, de las dos soluciones la de 
+#Re(z)>0, para obtener la otra, hay que multiplicar por -1
+sqrt(z)*(-1) #Otra forma de hacer la raiz cuadrada de un núemro complejo es colocar su parte Re e Im.
+exp(z) #Tambien podemos halla la función exponecial de un número complejo.
+sin(z) #Tambien podemos hallar el seno de un complejo
+cos(z) #Tambien podemos hallar el coseno de un complejo
+
+#Módulo = sqrt(Re(z)^2 + Im(z)^2)
+Mod(z)
+#Argumento = arctan(Im(z)/Re(z))
+#          = arctcos(Re(z)/Mod(z))
+#          = arcsin(Im(z)/Mod(z))
+Arg(z) #Muestra en radianes (-pi, pi]
+
+#Conjudo = Re(z) - Im(z)i
+Conj(z)
+#Parte Real y Parte Imginaria
+Re(z)
+Im(z)
+# z = Mod(z) * (cos(Arg(z)+sin(Arg(z))i))
+complex(modulus = 2, argument = pi/2) -> z2
+z2
+Mod(z2)
+Arg(z2)
+pi/2
+Horas = 250000000/(60*60)
+
+Dias = Horas/24
+
+Años = Dias/(365)
+
+parte_años = Años - floor(Años)
+
+dias = parte_años*(365)-2
+
+parte_dias = dias - floor(dias) 
+
+##en el Año
+
+2018+floor(Años)
+
+##en el día
+
+floor(dias)
+
+##hora
+
+floor(parte_dias*24)
+```
+
+## Matrices
+
+* ```matrix(vector,nrow=n,byrow=valor_lógico)```: para definir una matriz de $n$ filas formadas por las entradas del vector
+  + ```nrow```: número de filas
+  + ```byrow```:si se iguala a TRUE, la matriz se construye por filas; si se iguala a FALSE(valor por defecto), se construye por columnas. 
+  + ```ncol```: número de columnas(puede usarse en lugar de nrow)
+  + R muestra las matrices indicando como *[i,]* la fila *i-ésima* y *[,j]* la columna *j-ésima*
+  + Todas las entradas de una matriz deben ser del mismo tipo de datos
+  
+```{r}
+M = matrix(1:12, nrow = 4)
+M
+M = matrix(1:12, nrow = 4, byrow = T)
+M
+M = matrix(1:12, nrow=3)
+M
+M = matrix(1, nrow = 4, ncol = 6)
+M
+```
+  
+### Ejercicio
+
+* ¿Cómo difinirías una matriz constante? Es decir, ¿cómo definirías una matriz A tal que $\forall = 1,...,n; j = 1, ... , m, a_{ij}=k$ siendo $k\in\mathbb{R}$? Como R no admite incógnitas, prueba para el caso específico $n=3, m=5, k=0$
+* Con el vector $vec=(1,2,3,4,5,6,7,,8,9,10,11,12)$ crea la matriz
+$\begin{equation}\begin{pmatrix}1&4&7&10\\2&5&8&11\\3&6&9&12\end{pmatrix}\end{equation}$
+  
+## Cómo construirlas
+
+* ```rbind(vector1, vector2, ..)```: construye la matriz de filas vector1, vector2, ...
+* ```cbind(vector1,vector2,...)```: construye la matriz de columnas vector1, vector2, ...
+  + Los vectores han de tener la misma longitud
+  + También sirve para añadir columnas(filas) a una matriz o concatenar por columnas(filas) matrices con el mismo número de filas(columnas)
+* ```diag(vector)```: para construir una matriz diagonal con un vector dado
+  + Si aplicamos diag a un número $n$, produce una matriz identidad de orden $n$
+
+```{r}
+rbind(M, c(1,2,3), c(-1,-2,-3)) 
+cbind(c(1,2,3),c(-1,-2,-3))
+diag(c(1,2,3,4))
+diag(5, nrow = 3)
+```
+## Submatrices
+
+* ```matriz[i,j]```: indica la entrada $(i,j)$ de la matriz, siendo $i,j\in\mathbb{N}$. Si $i$ y $j$ son vectores de índices, estaremos definiendo la submatriz con las filas pertenecientes al vector $i$ y columnas pertenecientes al vector $j$
+* ```matriz[i,]```: indica la fila *i-ésima* de la matriz, siendo $i\in\mathbb{N}$
+* ```matriz[,j]```: indica la columna *j-ésima* de la siendo $j\in\mathbb{N}$
+  + Si $i(j)$ es un vector de índices, estaremos definiendo la submatriz con las filas(columnas) pertenecientes al vector $i(j)$
+
+```{r}
+M[2,3]
+M[2,]
+M[,3]
+```
+## Funciones para matrices
+
+* ```diag(matriz)```: para obtener la diagonal de la matriz
+* ```nrwo(matriz)```: nos devuelve el número de filas de la matriz
+* ```ncol(matriz)```: nos devuelve el número de columnas de la matriz
+* ```dim(matriz)```: nos devuelve las dimensiones de la matriz
+* ```sum(matriz)```: obtenemos la suma de todas las entradas de la matriz
+* ```prod(matriz)```: obtenemos el producto de todas las entradas de la matriz
+* ```mean(matriz)```: obtenemos la media aritmética de todas las entradas de la matriz
+* ```colSums(matriz)```: obtenemos las sumas de cada una de las columnas de la matriz
+* ```rowSums(matriz)```: obtenemos las sumas de cada una de las filas de la matriz
+* ```colMeans(matriz)```: obtenemos las medias aritméticas por columnas de la matriz
+* ```rowMeans(matriz)```: obtenemos las medias aritméticas por filas de la matriz
+* ```apply(matriz, MARGIN=..., FUN=función)```: para aplicar otras funciones a las filas o las columnas de una matriz
+  + **MARGIN**: ha de ser 1 si queremos aplicar la función filas; 2 si queremos aplicar por columnas; o c(1,2) si la queremos aplicar a cada entrada
+

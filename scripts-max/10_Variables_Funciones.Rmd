@@ -1,0 +1,54 @@
+---
+title: "Variable y funciones"
+output: html_notebook
+---
+
+* **nombre_variable = valor** (fine una varible con dicho valor)
+* **nombre_función = funcion(variable){función}** (define una función)
+
+```{r}
+miVariable = 4 #una variable es un objeto que sirve para guarda datos o información
+doble = function(x){2*x}
+doble(miVariable)
+```
+```{r}
+cuadrado = function(x){
+  x^2
+  }
+cuadrado(miVariable)
+```
+
+```{r}
+raiz = function(x){sqrt(x)}
+raiz(miVariable)
+variable_2 <- 9 #Esta es otra forma de asignar un valor a una variable
+4 + 5 -> variable_3 #El sentido de la flecha no importa para guardar un valor en un variable.
+nombre = "Max Ponce" #Tambien se pueden crear variables como strings
+#R tambien es capaz de diferenciar entre minúsculas y mayúsculas.
+suma = function(x,y){x+y}
+suma(variable_2, variable_3)
+f = function(x){
+  x^3 - (3^x)*sin(x)
+  }
+f(miVariable)
+suma1 <- function(t){
+  t + 1;
+}
+suma5 <- function(numero){
+  numero = suma1(numero);
+  numero = suma1(numero);
+  numero = suma1(numero);
+  numero = suma1(numero);
+  suma1(numero);
+}
+suma5(5)
+
+ls() #lista todos los elementos creados
+rm(suma5) #elimina algunos de lo elementos creados
+ls()
+rm(list = ls()) #para eliminar todos los elementos
+ls()
+```
+
+
+
